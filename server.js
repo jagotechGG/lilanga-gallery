@@ -9,7 +9,7 @@ const admin = require('./views/admin');
 const defaults = require('./defaults');
 
 const PORT = process.env.PORT || 3000;
-const DATA_DIR = path.join(__dirname, 'data');
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const UPLOAD_DIR = path.join(DATA_DIR, 'uploads');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
 const SECRET_FILE = path.join(DATA_DIR, 'secret.txt');
@@ -29,6 +29,7 @@ function checkPw(pw, stored) {
 function loadDb() {
   if (!fs.existsSync(DB_FILE)) {
     const db = defaults.initialDb();
+    db.artworks = db.artworks.filter((a) => fs.existsSync(path.join(UPLOAD_DIR, a.front)));
     db.adminHash = hashPw(process.env.ADMIN_PASSWORD || defaults.ADMIN_PASSWORD);
     saveDb(db);
     return db;
@@ -64,7 +65,7 @@ function cookies(req) {
 const hasGate = (req) => { const c = cookies(req).lg; return !!c && safeEq(c, gateToken()); };
 const isAdmin = (req) => { const c = cookies(req).la; return !!c && safeEq(c, adminToken()); };
 const setCookie = (res, name, val, days) =>
-  res.append('Set-Cookie', `${name}=${val}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${days * 86400}`);
+  res.append('Set-Cookie', `${name}=${val}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${days * 86400}${res.req.secure ? '; Secure' : ''}`);
 
 /* simple brute-force limiter */
 const attempts = new Map();
@@ -136,6 +137,7 @@ const blank = () => ({
 /* ---------- app ---------- */
 const app = express();
 app.disable('x-powered-by');
+app.set('trust proxy', 1);
 app.use((req, res, next) => {
   res.set({ 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'X-Frame-Options': 'DENY' });
   next();
