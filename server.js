@@ -42,6 +42,11 @@ function saveDb(d) {
   fs.renameSync(tmp, DB_FILE);
 }
 let db = loadDb();
+// Se ADMIN_PASSWORD è impostata, ha sempre la precedenza sulla password salvata.
+if (process.env.ADMIN_PASSWORD && !checkPw(process.env.ADMIN_PASSWORD, db.adminHash)) {
+  db.adminHash = hashPw(process.env.ADMIN_PASSWORD);
+  saveDb(db);
+}
 if (!fs.existsSync(SECRET_FILE)) fs.writeFileSync(SECRET_FILE, crypto.randomBytes(32).toString('hex'));
 const SECRET = fs.readFileSync(SECRET_FILE, 'utf8');
 
