@@ -165,6 +165,7 @@ app.use((req, res, next) => {
   res.set({ 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'X-Frame-Options': 'DENY' });
   next();
 });
+app.get('/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'public', 'icons', 'favicon.ico')));
 app.get('/lang/:l', (req, res) => {
   const l = req.params.l;
   if (i18n.LANGS.includes(l)) res.append('Set-Cookie', `lang=${l}; Path=/; SameSite=Lax; Max-Age=${365 * 86400}${req.secure ? '; Secure' : ''}`);

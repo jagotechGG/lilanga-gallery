@@ -6,7 +6,7 @@ const img = (f) => '/uploads/' + encodeURIComponent(f);
 const page = (title, body) => `<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex"><title>${esc(title)} — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/admin.css"></head><body>${body}<script src="/assets/admin.js"></script></body></html>`;
+<link rel="stylesheet" href="/assets/admin.css"><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png"></head><body>${body}<script src="/assets/admin.js"></script></body></html>`;
 
 const shell = (active, inner, flash) => `
 <aside><div class="logo">Lilanga<small>Admin</small></div>

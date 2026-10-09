@@ -33,7 +33,11 @@ function head(title, lang = 'it') {
 <title>${esc(title)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css"></head>`;
+<link rel="stylesheet" href="/assets/site.css"><link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#D6202B">
+</head>`;
 }
 const layout = (title, body, cls, lang) =>
   `${head(title, lang)}<body class="${cls || ''}"><div class="progress"></div>${body}<script src="/assets/site.js"></script></body></html>`;
