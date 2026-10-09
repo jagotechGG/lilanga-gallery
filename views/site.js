@@ -1,5 +1,5 @@
 'use strict';
-const { t: tr, pick } = require('../i18n');
+const { t: tr, pick, LANGS, LANG_NAMES } = require('../i18n');
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const paras = (s) => String(s || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join('');
@@ -22,8 +22,8 @@ const shape = (name, cls, speed, style = '') =>
   `<div class="shape ${cls}" data-speed="${speed}" style="${style}"><div class="shape-in">${SHAPES[name]}</div></div>`;
 
 function langSwitch(lang) {
-  return `<div class="lang" role="group" aria-label="${esc(tr(lang, 'lang_label'))}">${['it', 'en', 'fr'].map((l) =>
-    `<a href="/lang/${l}" hreflang="${l}" lang="${l}"${l === lang ? ' class="on" aria-current="true"' : ''}>${l.toUpperCase()}</a>`).join('')}</div>`;
+  return `<details class="lang"><summary aria-label="${esc(tr(lang, 'lang_label'))}"><span class="globe" aria-hidden="true">◐</span>${lang.toUpperCase()}</summary>
+<ul>${LANGS.map((l) => `<li><a href="/lang/${l}" hreflang="${l}" lang="${l}"${l === lang ? ' class="on" aria-current="true"' : ''}><b>${l.toUpperCase()}</b> ${esc(LANG_NAMES[l])}</a></li>`).join('')}</ul></details>`;
 }
 
 function head(title, lang = 'it') {
@@ -86,7 +86,7 @@ function homePage(db, lang = 'it') {
 
   const body = `
 <header class="nav"><a href="#top" class="brand">Lilanga</a>
-<nav><a href="#catalogo">${T('nav_catalog')}</a><a href="#collezione" class="hm">${T('nav_collection')}</a><a href="#autenticita" class="hm">${T('nav_auth')}</a><a href="#artista" class="hm">${T('nav_artist')}</a><a href="/esci" class="out hm-s">${T('nav_exit')}</a>${langSwitch(lang)}</nav></header>
+<nav><a href="#catalogo">${T('nav_catalog')}</a><a href="#collezione" class="hm">${T('nav_collection')}</a><a href="#artista" class="hm">${T('nav_artist')}</a><a href="#autenticita" class="hm">${T('nav_auth')}</a><a href="/esci" class="out hm-s">${T('nav_exit')}</a>${langSwitch(lang)}</nav></header>
 
 <section class="hero" id="top" data-bg="#D6202B">
   <div class="hero-shapes">${shape('wave', 'h1', 0.25)}${shape('diamond', 'h2', 0.5)}${shape('moon', 'h3', 0.35)}${shape('eye', 'h4', 0.6)}${shape('zig', 'h5', 0.2)}${shape('curl', 'h6', 0.45)}${shape('bean', 'h7', 0.3)}</div>
@@ -126,20 +126,20 @@ function homePage(db, lang = 'it') {
   </div>
 </section>
 
-<section class="auth" id="autenticita" data-bg="#7FB07C">
-  ${shape('eye', 'a1', 0.35)}${shape('zig', 'a2', 0.2)}
-  <div class="wrap two">
-    <div><p class="kicker dark reveal">${esc(S('authKicker'))}</p><h2 class="big reveal">${esc(S('authTitle'))}</h2><div class="seal reveal" aria-hidden="true">${SHAPES.diamond}</div></div>
-    <div class="prose reveal">${paras(S('authText'))}</div>
-  </div>
-</section>
-
 <section class="artist" id="artista" data-bg="#111">
   <div class="wrap two">
     <div class="sticky"><p class="kicker reveal">${T('kicker_bio')}</p><h2 class="big reveal">${esc(S('artistTitle'))}</h2>
       <figure class="portrait reveal"><img src="/media/george-lilanga.jpg" alt="${esc(T('photo_caption'))}" width="500" height="398" loading="lazy"><figcaption>${esc(T('photo_caption'))}</figcaption></figure></div>
     <div><div class="prose light reveal">${paras(S('artistBio'))}</div>
     <ol class="timeline">${tl}</ol></div>
+  </div>
+</section>
+
+<section class="auth" id="autenticita" data-bg="#7FB07C">
+  ${shape('eye', 'a1', 0.35)}${shape('zig', 'a2', 0.2)}
+  <div class="wrap two">
+    <div><p class="kicker dark reveal">${esc(S('authKicker'))}</p><h2 class="big reveal">${esc(S('authTitle'))}</h2><div class="seal reveal" aria-hidden="true">${SHAPES.diamond}</div></div>
+    <div class="prose reveal">${paras(S('authText'))}</div>
   </div>
 </section>
 

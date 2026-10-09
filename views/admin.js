@@ -1,7 +1,6 @@
 'use strict';
 const { esc } = require('./site');
-const { SETTINGS_KEYS, ARTWORK_KEYS } = require('../i18n');
-const LANG_NAMES = { en: 'Inglese', fr: 'Francese' };
+const { SETTINGS_KEYS, TR_LANGS, LANG_NAMES } = require('../i18n');
 const img = (f) => '/uploads/' + encodeURIComponent(f);
 
 const page = (title, body) => `<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -64,7 +63,7 @@ ${area('Stato di conservazione', 'conservation', a.conservation, 2)}
 <label class="chk big"><input type="checkbox" name="published" ${a.published ? 'checked' : ''}> Pubblicata sul sito</label></fieldset>
 
 <fieldset><legend>Traduzioni (opzionali)</legend><p class="hint">Se un campo resta vuoto, il sito mostra la versione italiana.</p>
-${['en', 'fr'].map((l) => `<details class="tr"><summary>${LANG_NAMES[l]}</summary>
+${TR_LANGS.map((l) => `<details class="tr"><summary>${LANG_NAMES[l]}</summary>
 ${field('Titolo', 'title_' + l, a['title_' + l])}${field('Anno', 'year_' + l, a['year_' + l])}${field('Tecnica', 'technique_' + l, a['technique_' + l])}
 ${area('Descrizione / note', 'description_' + l, a['description_' + l], 3)}${area('Provenienza', 'provenance_' + l, a['provenance_' + l], 3)}
 ${area('Stato di conservazione', 'conservation_' + l, a['conservation_' + l], 2)}${field('Note certificato', 'rosenfeldNotes_' + l, a['rosenfeldNotes_' + l])}</details>`).join('')}</fieldset>
@@ -96,7 +95,7 @@ function content(s, ok) {
 <fieldset><legend>Autenticità e provenienza</legend>${field('Sopratitolo', 'authKicker', s.authKicker)}${field('Titolo sezione', 'authTitle', s.authTitle)}${area('Testo', 'authText', s.authText, 12, 'paragrafi separati da una riga vuota')}</fieldset>
 <fieldset><legend>L'artista</legend>${field('Titolo sezione', 'artistTitle', s.artistTitle)}${area('Biografia', 'artistBio', s.artistBio, 12, 'paragrafi separati da una riga vuota')}${area('Cronologia', 'timeline', s.timeline, 8, 'una riga per voce, formato: anno | testo')}</fieldset>
 <fieldset><legend>Traduzioni dei testi</legend><p class="hint">Se un campo resta vuoto, il sito mostra la versione italiana.</p>
-${['en', 'fr'].map((l) => `<details class="tr"><summary>${LANG_NAMES[l]}</summary>${SETTINGS_KEYS.map((k) => (LONG[k] ? area(LABELS[k], k + '_' + l, s[k + '_' + l], LONG[k]) : field(LABELS[k], k + '_' + l, s[k + '_' + l]))).join('')}</details>`).join('')}</fieldset>
+${TR_LANGS.map((l) => `<details class="tr"><summary>${LANG_NAMES[l]}</summary>${SETTINGS_KEYS.map((k) => (LONG[k] ? area(LABELS[k], k + '_' + l, s[k + '_' + l], LONG[k]) : field(LABELS[k], k + '_' + l, s[k + '_' + l]))).join('')}</details>`).join('')}</fieldset>
 <fieldset><legend>Piè di pagina</legend>${field('Testo', 'footer', s.footer)}${field('Contatti (opzionale)', 'contact', s.contact)}</fieldset>
 <div class="actions"><button class="btn">Salva contenuti</button></div></form>
 <form method="post" action="/admin/password" class="art"><fieldset><legend>Password amministratore</legend><div class="g2">

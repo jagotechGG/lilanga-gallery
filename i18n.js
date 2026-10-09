@@ -1,5 +1,8 @@
 'use strict';
-const LANGS = ['it', 'en', 'fr'];
+const extra = require('./i18n-extra');
+const LANGS = ['it', 'en', 'fr', 'de', 'pt', 'es'];
+const TR_LANGS = LANGS.filter((l) => l !== 'it');
+const LANG_NAMES = { it: 'Italiano', en: 'English', fr: 'Français', de: 'Deutsch', pt: 'Português', es: 'Español' };
 
 /* Etichette dell'interfaccia */
 const UI = {
@@ -69,6 +72,8 @@ const UI = {
 const SETTINGS_KEYS = ['heroKicker', 'heroSubtitle', 'collectionTitle', 'collectionStory', 'authKicker', 'authTitle', 'authText', 'artistTitle', 'artistBio', 'timeline', 'footer'];
 const ARTWORK_KEYS = ['title', 'year', 'technique', 'provenance', 'conservation', 'description', 'rosenfeldNotes'];
 
+Object.assign(UI, extra.UI);
+
 const t = (lang, key) => (UI[lang] && UI[lang][key]) || UI.it[key] || key;
 const pick = (obj, key, lang) => (lang !== 'it' && obj[key + '_' + lang]) || obj[key] || '';
 
@@ -91,8 +96,6 @@ const SETTINGS_EN = {
     'This collection is the story of an artist in his formative years. While George Lilanga was leaving Makonde sculpture behind to invent a pictorial language of his own, in Dar es Salaam, amid the creative atmosphere of the Nyumba ya Sanaa centre, someone began to gather what came out of his hands: the first drawings, watercolours, hand-printed works and batiks.',
     'Over the years the collection grew to include every form in which Lilanga expressed himself: paintings on canvas and masonite, carved calabashes, wooden sculptures and metal works. Most of the works belong to his early period, before the 1978 Washington exhibition brought him to a wide public, and before contact with the Tingatinga school changed his palette. It is material that is hard to find elsewhere.',
     'For years the collection remained in Germany, in the hands of Christine Rosenfeld, who looked after it and supplied it with Galerie Rosenfeld certificates. Interest from institutions was not lacking: the Linden-Museum in Stuttgart appreciated its value and acquired part of the works, which are now in its holdings. The rest, the larger core, stayed together.',
-    'That core is now held by Ivan Anfossi, who acquired it in full, preventing it from being scattered; the story is told in the Authenticity section. Since then the work has been that of an archive: every work has been photographed front and back, signature, labels and stamps included, and catalogued with an internal code.',
-    'This website is its showcase. It gathers the works\' records for scholars, collectors and anyone who wants to be swept away by the world of Lilanga, starting from where it all began.',
   ].join('\n\n'),
   authKicker: 'Provenance',
   authTitle: 'Authenticity',
@@ -128,8 +131,6 @@ const SETTINGS_FR = {
     'Cette collection est le récit d\'un artiste dans ses années de formation. Alors que George Lilanga quittait la sculpture makondé pour inventer un langage pictural bien à lui, à Dar es Salaam, dans l\'atmosphère créative du centre Nyumba ya Sanaa, quelqu\'un a commencé à rassembler ce qui sortait de ses mains : les premiers dessins, aquarelles, estampes à la main et batiks.',
     'Au fil des ans, la collection s\'est étendue à toutes les formes dans lesquelles Lilanga s\'est exprimé : peintures sur toile et sur Isorel, calebasses sculptées, sculptures en bois et œuvres en métal. La plupart des travaux appartiennent à sa période initiale, avant que l\'exposition de Washington de 1978 ne le fasse connaître du grand public, et avant que le contact avec l\'école Tingatinga ne change sa palette. C\'est un ensemble difficile à trouver ailleurs.',
     'Pendant des années, la collection est restée en Allemagne, entre les mains de Christine Rosenfeld, qui l\'a conservée et accompagnée des certificats de la Galerie Rosenfeld. L\'intérêt des institutions n\'a pas manqué : le Linden-Museum de Stuttgart en a apprécié la valeur et a acquis une partie des œuvres, qui font aujourd\'hui partie de ses collections. Le reste, le noyau le plus important, est demeuré uni.',
-    'Ce noyau est aujourd\'hui entre les mains d\'Ivan Anfossi, qui l\'a acquis dans son intégralité en évitant sa dispersion ; l\'histoire est racontée dans la section Authenticité. Depuis, le travail est celui d\'une archive : chaque œuvre a été photographiée recto et verso, signature, étiquettes et tampons compris, et cataloguée avec un code interne.',
-    'Ce site en est la vitrine. Il rassemble les fiches des œuvres pour les chercheurs, les collectionneurs et tous ceux qui veulent se laisser entraîner dans le monde de Lilanga, à partir de là où tout a commencé.',
   ].join('\n\n'),
   authKicker: 'Provenance',
   authTitle: 'Authenticité',
@@ -168,10 +169,13 @@ const DEMO = {
   },
 };
 
+const SETTINGS_BY_LANG = { en: SETTINGS_EN, fr: SETTINGS_FR, de: extra.SETTINGS.de, pt: extra.SETTINGS.pt, es: extra.SETTINGS.es };
 function settingsTranslations() {
   const out = {};
-  for (const k of SETTINGS_KEYS) { out[k + '_en'] = SETTINGS_EN[k]; out[k + '_fr'] = SETTINGS_FR[k]; }
+  for (const l of TR_LANGS) for (const k of SETTINGS_KEYS) out[k + '_' + l] = SETTINGS_BY_LANG[l][k];
   return out;
 }
 
-module.exports = { LANGS, UI, t, pick, detect, SETTINGS_KEYS, ARTWORK_KEYS, settingsTranslations, DEMO };
+for (const id of Object.keys(extra.DEMO)) Object.assign(DEMO[id], extra.DEMO[id]);
+
+module.exports = { LANGS, TR_LANGS, LANG_NAMES, UI, t, pick, detect, SETTINGS_KEYS, ARTWORK_KEYS, settingsTranslations, DEMO };

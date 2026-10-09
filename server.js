@@ -48,7 +48,7 @@ db.settings = Object.assign({}, defaults.initialDb().settings, db.settings);
 // Traduzioni delle opere dimostrative (solo campi ancora mancanti).
 db.artworks.forEach((a) => {
   const d = i18n.DEMO[a.id];
-  if (d) for (const l of ['en', 'fr']) for (const k of Object.keys(d[l])) if (a[k + '_' + l] === undefined) a[k + '_' + l] = d[l][k];
+  if (d) for (const l of i18n.TR_LANGS) for (const k of Object.keys(d[l] || {})) if (a[k + '_' + l] === undefined) a[k + '_' + l] = d[l][k];
 });
 
 // Opere dimostrative: caricate una sola volta se l'archivio è vuoto.
@@ -135,7 +135,7 @@ function applyArtwork(art, body, files) {
   art.exhibitions = lines(body.exhibitions);
   art.conservation = t('conservation');
   art.description = t('description');
-  for (const k of i18n.ARTWORK_KEYS) for (const l of ['en', 'fr']) art[k + '_' + l] = t(k + '_' + l);
+  for (const k of i18n.ARTWORK_KEYS) for (const l of i18n.TR_LANGS) art[k + '_' + l] = t(k + '_' + l);
   art.published = body.published === 'on';
   for (const f of SINGLE) {
     const up = files[f] && files[f][0];

@@ -117,3 +117,12 @@
   });
   addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
 })();
+
+/* language dropdown: close on outside click / Esc */
+(function () {
+  var dd = document.querySelector('.lang');
+  if (!dd) return;
+  document.addEventListener('click', function (e) { if (dd.open && !dd.contains(e.target)) dd.open = false; });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape') dd.open = false; });
+  addEventListener('scroll', function () { dd.open = false; }, { passive: true });
+})();
