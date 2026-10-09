@@ -2,7 +2,7 @@
 // Credenziali iniziali: CAMBIARLE dal pannello admin (Contenuti → Sicurezza).
 const ADMIN_PASSWORD = 'lilanga-admin';
 
-function initialDb() {
+function baseDb() {
   return {
     settings: {
       passphrase: 'shetani',
@@ -40,5 +40,15 @@ function initialDb() {
       },
     ],
   };
+}
+function initialDb() {
+  const i18n = require('./i18n');
+  const db = baseDb();
+  Object.assign(db.settings, i18n.settingsTranslations());
+  db.artworks.forEach((a) => {
+    const d = i18n.DEMO[a.id] || {};
+    for (const lang of ['en', 'fr']) for (const k of Object.keys(d[lang] || {})) a[k + '_' + lang] = d[lang][k];
+  });
+  return db;
 }
 module.exports = { initialDb, ADMIN_PASSWORD };

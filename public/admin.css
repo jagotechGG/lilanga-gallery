@@ -29,3 +29,5 @@ input:focus,textarea:focus,select:focus{outline:3px solid var(--yellow)}
 .hint{font-size:.85rem;opacity:.7}
 .login{margin:auto;width:100%}.login form{max-width:380px;margin:20vh auto;background:#fff;border:3px solid var(--ink);box-shadow:8px 8px 0 var(--yellow);border-radius:20px;padding:30px;display:flex;flex-direction:column;gap:14px}
 .login h1 small{font-size:.8rem;color:var(--red)}.login input{padding:.8em;border:2px solid var(--ink);border-radius:10px;font:inherit}.login button{background:var(--red);color:#fff;border:2px solid var(--ink);padding:.8em;border-radius:99px;font:inherit;font-weight:700;cursor:pointer}.err{color:var(--red);font-weight:600;min-height:1.2em}
+details.tr{border:2px solid var(--ink);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fffdf3}
+details.tr summary{font-weight:800;cursor:pointer}

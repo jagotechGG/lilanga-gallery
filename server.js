@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { layout, esc, gatePage, homePage, artworkPage, notFoundPage } = require('./views/site');
 const admin = require('./views/admin');
+const i18n = require('./i18n');
 const defaults = require('./defaults');
 
 const PORT = process.env.PORT || 3000;
@@ -43,6 +44,12 @@ function saveDb(d) {
 }
 let db = loadDb();
 db.settings = Object.assign({}, defaults.initialDb().settings, db.settings);
+
+// Traduzioni delle opere dimostrative (solo campi ancora mancanti).
+db.artworks.forEach((a) => {
+  const d = i18n.DEMO[a.id];
+  if (d) for (const l of ['en', 'fr']) for (const k of Object.keys(d[l])) if (a[k + '_' + l] === undefined) a[k + '_' + l] = d[l][k];
+});
 
 // Opere dimostrative: caricate una sola volta se l'archivio è vuoto.
 (function seedDemo() {
@@ -128,6 +135,7 @@ function applyArtwork(art, body, files) {
   art.exhibitions = lines(body.exhibitions);
   art.conservation = t('conservation');
   art.description = t('description');
+  for (const k of i18n.ARTWORK_KEYS) for (const l of ['en', 'fr']) art[k + '_' + l] = t(k + '_' + l);
   art.published = body.published === 'on';
   for (const f of SINGLE) {
     const up = files[f] && files[f][0];
@@ -146,6 +154,9 @@ const blank = () => ({
   published: true, front: null, back: null, signature: null, labels: [], rosenfeldImgs: [], exhibited: [],
 });
 
+/* ---------- lingua ---------- */
+const lang = (req) => i18n.detect(req, cookies(req).lang);
+
 /* ---------- app ---------- */
 const app = express();
 app.disable('x-powered-by');
@@ -154,23 +165,34 @@ app.use((req, res, next) => {
   res.set({ 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'same-origin', 'X-Frame-Options': 'DENY' });
   next();
 });
+app.get('/lang/:l', (req, res) => {
+  const l = req.params.l;
+  if (i18n.LANGS.includes(l)) res.append('Set-Cookie', `lang=${l}; Path=/; SameSite=Lax; Max-Age=${365 * 86400}${req.secure ? '; Secure' : ''}`);
+  let back = '/';
+  try {
+    const r = new URL(req.get('referer') || '', 'http://x');
+    if (!req.get('referer') || r.host === req.get('host')) back = (new URL(req.get('referer') || '/', 'http://x').pathname) || '/';
+  } catch (e) { /* referer non valido */ }
+  if (back.startsWith('//') || back.startsWith('/lang/')) back = '/';
+  res.redirect(back);
+});
 app.use('/assets', express.static(path.join(__dirname, 'public'), { maxAge: 0 }));
 app.use(express.urlencoded({ extended: false, limit: '1mb' }));
 
 /* gate */
 app.get('/gate', (req, res) => {
   if (hasGate(req)) return res.redirect('/');
-  res.send(gatePage(db.settings, req.query.err));
+  res.send(gatePage(db.settings, req.query.err, lang(req)));
 });
 app.post('/gate', (req, res) => {
   const key = 'g:' + req.ip;
-  if (limited(key)) return res.status(429).send(gatePage(db.settings, 'wait'));
+  if (limited(key)) return res.status(429).send(gatePage(db.settings, 'wait', lang(req)));
   if (safeEq(sign('gate:' + normPhrase(req.body.phrase)), gateToken())) {
     setCookie(res, 'lg', gateToken(), 30);
     return res.redirect('/');
   }
   fail(key);
-  res.status(401).send(gatePage(db.settings, 'bad'));
+  res.status(401).send(gatePage(db.settings, 'bad', lang(req)));
 });
 app.get('/esci', (req, res) => {
   res.append('Set-Cookie', 'lg=; Path=/; Max-Age=0');
@@ -252,14 +274,14 @@ app.get('/uploads/:f', (req, res) => {
 
 /* protected site */
 app.use((req, res, next) => (hasGate(req) || isAdmin(req) ? next() : res.redirect('/gate')));
-app.get('/', (req, res) => res.send(homePage(db)));
+app.get('/', (req, res) => res.send(homePage(db, lang(req))));
 app.get('/opera/:code', (req, res) => {
   const list = db.artworks.filter((a) => a.published);
   const i = list.findIndex((a) => a.code === req.params.code);
-  if (i < 0) return res.status(404).send(notFoundPage(db.settings));
-  res.send(artworkPage(db.settings, list[i], list[(i - 1 + list.length) % list.length], list[(i + 1) % list.length]));
+  if (i < 0) return res.status(404).send(notFoundPage(db.settings, lang(req)));
+  res.send(artworkPage(db.settings, list[i], list[(i - 1 + list.length) % list.length], list[(i + 1) % list.length], lang(req)));
 });
-app.use((req, res) => res.status(404).send(notFoundPage(db.settings)));
+app.use((req, res) => res.status(404).send(notFoundPage(db.settings, lang(req))));
 app.use((err, req, res, next) => { console.error(err); res.status(500).send('Errore del server'); });
 
 app.listen(PORT, () => {
