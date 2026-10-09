@@ -137,7 +137,7 @@ function homePage(db, lang = 'it') {
 <section class="artist" id="artista" data-bg="#111">
   <div class="wrap two">
     <div class="sticky"><p class="kicker reveal">${T('kicker_bio')}</p><h2 class="big reveal">${esc(S('artistTitle'))}</h2>
-      <div class="reveal sticky-shape">${SHAPES.house}</div></div>
+      <figure class="portrait reveal"><img src="/media/george-lilanga.jpg" alt="${esc(T('photo_caption'))}" width="500" height="398" loading="lazy"><figcaption>${esc(T('photo_caption'))}</figcaption></figure></div>
     <div><div class="prose light reveal">${paras(S('artistBio'))}</div>
     <ol class="timeline">${tl}</ol></div>
   </div>

@@ -230,3 +230,11 @@ html,body{max-width:100%}
   .nav nav>a{font-size:.7rem;padding:.45em .5em}
   .lang a{font-size:.66rem;padding:.42em .38em}
 }
+
+/* artist portrait */
+.portrait{position:relative;max-width:min(430px,100%);margin-top:2.2rem;background:var(--cream);padding:12px 12px 14px;border-radius:4px;rotate:-3deg;box-shadow:12px 14px 0 rgba(214,32,43,.9);transition:rotate .6s var(--ease),box-shadow .4s var(--ease)}
+.portrait::before{content:"";position:absolute;top:-14px;left:50%;width:96px;height:28px;translate:-50% 0;rotate:3deg;background:var(--yellow);opacity:.92;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.portrait img{width:100%;height:auto;display:block;filter:saturate(1.05) contrast(1.02)}
+.portrait figcaption{color:var(--ink);font-family:var(--serif);font-style:italic;font-size:.95rem;padding:10px 4px 0}
+.portrait:hover{rotate:0deg;box-shadow:16px 18px 0 rgba(214,32,43,.9)}
+@media(max-width:860px){.portrait{margin-inline:auto 0;rotate:-2deg}}

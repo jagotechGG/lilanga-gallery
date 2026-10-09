@@ -272,6 +272,15 @@ app.get('/uploads/:f', (req, res) => {
   res.sendFile(p);
 });
 
+/* media del sito (ritratto dell'artista): solo dopo il gate */
+app.get('/media/:f', (req, res) => {
+  if (!hasGate(req) && !isAdmin(req)) return res.status(403).end();
+  const p = path.join(__dirname, 'media', path.basename(req.params.f));
+  if (!fs.existsSync(p)) return res.status(404).end();
+  res.set('Cache-Control', 'private, max-age=86400');
+  res.sendFile(p);
+});
+
 /* protected site */
 app.use((req, res, next) => (hasGate(req) || isAdmin(req) ? next() : res.redirect('/gate')));
 app.get('/', (req, res) => res.send(homePage(db, lang(req))));

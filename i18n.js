@@ -21,7 +21,7 @@ const UI = {
     sec_cat: 'Cataloghi e pubblicazioni', sec_exh: 'Esposizioni', sec_shown: 'L\'opera esposta',
     front: 'Fronte', back: 'Retro', signature: 'Firma', label: 'Etichetta o timbro', certificate: 'Certificato', shown: 'Opera esposta',
     nf_text: 'Questa opera non esiste (o è sparita nel mondo degli shetani).', nf_back: 'Torna al catalogo',
-    mq4: 'Colore', close: 'Chiudi', lang_label: 'Lingua',
+    photo_caption: 'George Lilanga accanto a una sua opera', mq4: 'Colore', close: 'Chiudi', lang_label: 'Lingua',
   },
   en: {
     nav_catalog: 'Catalogue', nav_collection: 'Collection', nav_auth: 'Authenticity', nav_artist: 'The artist', nav_exit: 'Exit',
@@ -41,7 +41,7 @@ const UI = {
     sec_cat: 'Catalogues and publications', sec_exh: 'Exhibitions', sec_shown: 'The work on display',
     front: 'Front', back: 'Back', signature: 'Signature', label: 'Label or stamp', certificate: 'Certificate', shown: 'Work on display',
     nf_text: 'This work does not exist (or has vanished into the world of the shetani).', nf_back: 'Back to the catalogue',
-    mq4: 'Colour', close: 'Close', lang_label: 'Language',
+    photo_caption: 'George Lilanga beside one of his works', mq4: 'Colour', close: 'Close', lang_label: 'Language',
   },
   fr: {
     nav_catalog: 'Catalogue', nav_collection: 'Collection', nav_auth: 'Authenticité', nav_artist: 'L\'artiste', nav_exit: 'Quitter',
@@ -61,7 +61,7 @@ const UI = {
     sec_cat: 'Catalogues et publications', sec_exh: 'Expositions', sec_shown: 'L\'œuvre exposée',
     front: 'Recto', back: 'Verso', signature: 'Signature', label: 'Étiquette ou tampon', certificate: 'Certificat', shown: 'Œuvre exposée',
     nf_text: 'Cette œuvre n\'existe pas (ou a disparu dans le monde des shetani).', nf_back: 'Retour au catalogue',
-    mq4: 'Couleur', close: 'Fermer', lang_label: 'Langue',
+    photo_caption: 'George Lilanga à côté d\'une de ses œuvres', mq4: 'Couleur', close: 'Fermer', lang_label: 'Langue',
   },
 };
 
