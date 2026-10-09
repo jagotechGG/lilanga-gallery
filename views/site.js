@@ -74,7 +74,7 @@ function homePage(db) {
 
   const body = `
 <header class="nav"><a href="#top" class="brand">Lilanga</a>
-<nav><a href="#catalogo">Catalogo</a><a href="#collezione">Collezione</a><a href="#artista">L'artista</a><a href="/esci" class="out">Esci</a></nav></header>
+<nav><a href="#catalogo">Catalogo</a><a href="#collezione" class="hm">Collezione</a><a href="#artista">L'artista</a><a href="/esci" class="out">Esci</a></nav></header>
 
 <section class="hero" id="top" data-bg="#D6202B">
   <div class="hero-shapes">${shape('wave', 'h1', 0.25)}${shape('diamond', 'h2', 0.5)}${shape('moon', 'h3', 0.35)}${shape('eye', 'h4', 0.6)}${shape('zig', 'h5', 0.2)}${shape('curl', 'h6', 0.45)}${shape('bean', 'h7', 0.3)}</div>

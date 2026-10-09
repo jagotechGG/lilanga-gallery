@@ -193,3 +193,14 @@ body.detail{background:var(--cream)}
 .hero-shapes{position:absolute;inset:0}
 a.cta.rise{display:inline-flex}
 .hero-art.ha1{width:min(18vw,270px);right:30%;bottom:4%}
+@media(max-width:640px){
+  .nav{padding:12px 14px;gap:8px}
+  .brand{font-size:1.15rem}
+  .nav nav{gap:0;padding:4px}
+  .nav nav a{font-size:.78rem;padding:.5em .75em}
+  .nav nav a.hm{display:none}
+  .gate-card{box-shadow:8px 8px 0 var(--yellow)}
+  .row{grid-template-columns:1fr;gap:.1em}
+  .mini{gap:10px}
+}
+html,body{max-width:100%}
