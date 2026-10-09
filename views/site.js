@@ -97,7 +97,7 @@ function homePage(db) {
       <button class="chip on" data-f="all">Tutte <b>${works.length}</b></button>
       ${cats.map((c) => `<button class="chip" data-f="${c}">${CAT[c]} <b>${works.filter((a) => a.category === c).length}</b></button>`).join('')}
     </div>
-    <div class="grid">${works.map(card).join('') || '<p class="empty">Nessuna opera pubblicata.</p>'}</div>
+    <div class="grid">${works.map(card).join('') || '<p class="empty">Nessuna opera pubblicata al momento.</p>'}</div>
   </div>
 </section>
 
