@@ -42,6 +42,17 @@ function saveDb(d) {
   fs.renameSync(tmp, DB_FILE);
 }
 let db = loadDb();
+
+// Opere dimostrative: caricate una sola volta se l'archivio è vuoto.
+(function seedDemo() {
+  if (db.demoSeeded || db.artworks.length) return;
+  const dir = path.join(__dirname, 'seed');
+  if (!fs.existsSync(dir)) return;
+  fs.readdirSync(dir).forEach((f) => fs.copyFileSync(path.join(dir, f), path.join(UPLOAD_DIR, f)));
+  db.artworks = defaults.initialDb().artworks;
+  db.demoSeeded = true;
+  saveDb(db);
+})();
 if (!fs.existsSync(SECRET_FILE)) fs.writeFileSync(SECRET_FILE, crypto.randomBytes(32).toString('hex'));
 const SECRET = fs.readFileSync(SECRET_FILE, 'utf8');
 
