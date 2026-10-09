@@ -74,7 +74,7 @@ function homePage(db) {
 
   const body = `
 <header class="nav"><a href="#top" class="brand">Lilanga</a>
-<nav><a href="#catalogo">Catalogo</a><a href="#collezione" class="hm">Collezione</a><a href="#artista">L'artista</a><a href="/esci" class="out">Esci</a></nav></header>
+<nav><a href="#catalogo">Catalogo</a><a href="#collezione" class="hm">Collezione</a><a href="#autenticita" class="hm">Autenticità</a><a href="#artista">L'artista</a><a href="/esci" class="out">Esci</a></nav></header>
 
 <section class="hero" id="top" data-bg="#D6202B">
   <div class="hero-shapes">${shape('wave', 'h1', 0.25)}${shape('diamond', 'h2', 0.5)}${shape('moon', 'h3', 0.35)}${shape('eye', 'h4', 0.6)}${shape('zig', 'h5', 0.2)}${shape('curl', 'h6', 0.45)}${shape('bean', 'h7', 0.3)}</div>
@@ -111,6 +111,14 @@ function homePage(db) {
         <div class="reveal"><b data-count="${counts.other}">0</b><span>sculture e disegni</span></div>
       </div></div>
     <div class="prose reveal">${paras(s.collectionStory)}</div>
+  </div>
+</section>
+
+<section class="auth" id="autenticita" data-bg="#7FB07C">
+  ${shape('eye', 'a1', 0.35)}${shape('zig', 'a2', 0.2)}
+  <div class="wrap two">
+    <div><p class="kicker dark reveal">${esc(s.authKicker)}</p><h2 class="big reveal">${esc(s.authTitle)}</h2><div class="seal reveal" aria-hidden="true">${SHAPES.diamond}</div></div>
+    <div class="prose reveal">${paras(s.authText)}</div>
   </div>
 </section>
 

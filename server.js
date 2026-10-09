@@ -42,6 +42,7 @@ function saveDb(d) {
   fs.renameSync(tmp, DB_FILE);
 }
 let db = loadDb();
+db.settings = Object.assign({}, defaults.initialDb().settings, db.settings);
 
 // Opere dimostrative: caricate una sola volta se l'archivio è vuoto.
 (function seedDemo() {

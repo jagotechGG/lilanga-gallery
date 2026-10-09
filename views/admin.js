@@ -82,6 +82,7 @@ function content(s, ok) {
 <p class="hint">Cambiandola, chi era già entrato dovrà reinserirla. Non è sensibile alle maiuscole.</p></fieldset>
 <fieldset><legend>Home</legend>${field('Titolo del sito', 'siteTitle', s.siteTitle)}${field('Sopratitolo', 'heroKicker', s.heroKicker)}${field('Titolo grande', 'heroTitle', s.heroTitle)}${area('Sottotitolo', 'heroSubtitle', s.heroSubtitle, 3)}</fieldset>
 <fieldset><legend>Storia della collezione</legend>${field('Titolo sezione', 'collectionTitle', s.collectionTitle)}${area('Testo', 'collectionStory', s.collectionStory, 12, 'paragrafi separati da una riga vuota')}</fieldset>
+<fieldset><legend>Autenticità e provenienza</legend>${field('Sopratitolo', 'authKicker', s.authKicker)}${field('Titolo sezione', 'authTitle', s.authTitle)}${area('Testo', 'authText', s.authText, 12, 'paragrafi separati da una riga vuota')}</fieldset>
 <fieldset><legend>L'artista</legend>${field('Titolo sezione', 'artistTitle', s.artistTitle)}${area('Biografia', 'artistBio', s.artistBio, 12, 'paragrafi separati da una riga vuota')}${area('Cronologia', 'timeline', s.timeline, 8, 'una riga per voce, formato: anno | testo')}</fieldset>
 <fieldset><legend>Piè di pagina</legend>${field('Testo', 'footer', s.footer)}${field('Contatti (opzionale)', 'contact', s.contact)}</fieldset>
 <div class="actions"><button class="btn">Salva contenuti</button></div></form>

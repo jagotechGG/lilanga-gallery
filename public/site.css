@@ -204,3 +204,8 @@ a.cta.rise{display:inline-flex}
   .mini{gap:10px}
 }
 html,body{max-width:100%}
+.auth{position:relative;background:var(--green);color:var(--ink);padding:clamp(90px,13vw,170px) 0;overflow:hidden}
+.auth .big{margin:.15em 0 .5em}
+.auth .prose p:first-child::first-letter{color:var(--red)}
+.seal{width:min(180px,45%);margin-top:2rem;animation:float 9s ease-in-out infinite alternate}
+.a1{width:130px;right:5%;top:7%}.a2{width:260px;left:-30px;bottom:-6px}
